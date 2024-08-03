@@ -8,11 +8,4 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record attributeInfo(int startingBid, Boolean bin) {
 
-    @Override
-    public String toString() {
-        return "attributeInfo[" +
-                "startingBid=" + startingBid + ", " +
-                "bin=" + bin + ']';
-    }
-
 }

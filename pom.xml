@@ -42,6 +42,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.hypixel</groupId>
             <artifactId>HypixelAPI</artifactId>
             <version>3.0.0</version>

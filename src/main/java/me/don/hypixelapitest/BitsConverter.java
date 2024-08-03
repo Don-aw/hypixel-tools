@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Bits_converter {
+public class BitsConverter {
 
     private final HttpClient client;
     private final ObjectMapper objectMapper;
@@ -19,7 +19,7 @@ public class Bits_converter {
     private final DecimalFormatSymbols symbols;
     private BazaarData bazaarData;
 
-    public Bits_converter() {
+    public BitsConverter() {
 
         client = HttpClient.newHttpClient();
         objectMapper = new ObjectMapper();
@@ -134,6 +134,7 @@ public class Bits_converter {
         System.out.println("How much? [int]");
         int amt = input.nextInt();
 
+        //Leaves room for adding for crafting recipes if needed
         switch(recipe_name){
 
             case "ucc":craftUltimateCarrotCandy(amt);

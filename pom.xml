@@ -14,25 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-
-        <repository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>Hypixel</id>
-            <url>https://repo.hypixel.net/repository/Hypixel/</url>
-        </repository>
-
-    </repositories>
-
     <dependencies>
 
         <dependency>
@@ -41,17 +22,6 @@
             <version>2.17.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160212</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.hypixel</groupId>
-            <artifactId>HypixelAPI</artifactId>
-            <version>3.0.0</version>
-        </dependency>
     </dependencies>
 
 </project>

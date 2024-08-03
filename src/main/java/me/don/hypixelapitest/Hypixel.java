@@ -20,9 +20,6 @@ public class Hypixel {
         System.out.println("Attribute[a] / Bits converter[b]");
         String choice = input.nextLine();
 
-
-        //String choice = "b";
-
         if (Objects.equals(choice, "a")) {
 
             attributePrice.fetchAttributes();

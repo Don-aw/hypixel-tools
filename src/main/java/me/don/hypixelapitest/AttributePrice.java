@@ -51,9 +51,8 @@ public class AttributePrice {
                     tierLBin.add(null);
                 }
 
-
-                Thread.sleep(100);
-                System.out.println("loading " + attributeName + ", " + tier + " out of 3...");
+                //Thread.sleep(100);
+                //System.out.println("loading " + attributeName + ", " + tier + " out of 3...");
 
 
             }

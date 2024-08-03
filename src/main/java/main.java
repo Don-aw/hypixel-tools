@@ -7,7 +7,6 @@ public class main {
         Hypixel hypixel = new Hypixel();
         hypixel.selectUtil();
 
-
     }
 
 }

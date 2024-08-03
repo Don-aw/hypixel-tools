@@ -4,10 +4,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.util.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.time.Duration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,21 +32,29 @@ public class BitsConverter {
 
     }
 
-    public void fetchBazaar() throws Exception {
+    public void fetchBazaar() {
 
         String BASE_URL = "https://api.hypixel.net/v2/skyblock/bazaar";
 
         HttpRequest request = HttpRequest.newBuilder()
+                .timeout(Duration.ofSeconds(5))
                 .uri(URI.create(BASE_URL))
                 //.header("Accept", "application/json")
                 .GET()
                 .build();
+        try {
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        //System.out.println(response.body().substring(0, 100));
+            //System.out.println(response.body().substring(0, 100));
 
-        bazaarData = objectMapper.readValue(response.body(), BazaarData.class);
+            bazaarData = objectMapper.readValue(response.body(), BazaarData.class);
+
+        } catch (HttpTimeoutException e) {
+            System.out.println("Connection timeout");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -137,7 +147,9 @@ public class BitsConverter {
         //Leaves room for adding for crafting recipes if needed
         switch(recipe_name){
 
-            case "ucc":craftUltimateCarrotCandy(amt);
+            case "ucc": craftUltimateCarrotCandy(amt);
+                        break;
+            default:    System.out.println("Invalid crafting option." + recipe_name);
 
         }
 

@@ -25,11 +25,11 @@ public class AttributePrice {
 
     }
 
-    public Map<String, List<Integer>> fetchAttributes() throws Exception{
+    public void fetchAttributes() throws Exception{
 
         String[] attributeNames = {"mana_pool", "double_hook", "lifeline", "vitality", "blazing_fortune", "veteran"};
-        //String[] attributeNames = {"magic_find", "double_hook"};
-        //String[] attributeNames = {"vitality", "veteran"};
+
+        System.out.println("Trying to fetch from coflnet api...");
 
         for (String attributeName : attributeNames) {
 
@@ -61,7 +61,11 @@ public class AttributePrice {
             attributeLowestBin.put(attributeName, tierLBin);
 
         }
+    }
 
-        return attributeLowestBin;
+    public void showAttributePrice() {
+
+        System.out.println(attributeLowestBin);
+
     }
 }

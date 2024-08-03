@@ -5,12 +5,12 @@ import java.util.*;
 public class Hypixel {
 
     private final BitsConverter bitsConverter;
-    private final AttributePrice ap;
+    private final AttributePrice attributePrice;
 
     public Hypixel() {
 
         bitsConverter = new BitsConverter();
-        ap = new AttributePrice();
+        attributePrice = new AttributePrice();
 
     }
 
@@ -25,28 +25,18 @@ public class Hypixel {
 
         if (Objects.equals(choice, "a")) {
 
-            fetchAttributePrice();
+            attributePrice.fetchAttributes();
+            attributePrice.showAttributePrice();
 
         } else if (Objects.equals(choice, "b")) {
 
-            //bit_convert(api);
             bitsConverter.fetchBazaar();
             bitsConverter.carrot_candy_upgrade();
             bitsConverter.heat_core();
+            bitsConverter.promptCraft();
 
         }
 
     }
 
-    public static void fetchAttributePrice() throws Exception {
-
-         ;
-
-        System.out.println("Trying to fetch from coflnet api...");
-
-        Map<String, List<Integer>> priceData = ap.fetchAttributes();
-
-        System.out.println(priceData);
-
-    }
 }

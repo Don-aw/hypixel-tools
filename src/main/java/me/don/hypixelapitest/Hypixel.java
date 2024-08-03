@@ -2,15 +2,21 @@ package me.don.hypixelapitest;
 
 import net.hypixel.api.HypixelAPI;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
-public class hypixel {
+public class Hypixel {
 
-    public static void main(String[] args) throws Exception {
+    private final Bits_converter bitsConverter;
+
+    public Hypixel() {
+
+        bitsConverter = new Bits_converter();
+
+    }
+
+    public void selection() throws Exception {
 
         HypixelAPI api = new HypixelAPI(UUID.fromString(""));
-
 
         Scanner input = new Scanner(System.in);
         System.out.println("Attribute[a] / Bits converter[b]");
@@ -32,7 +38,7 @@ public class hypixel {
 
     }
 
-    public static void bit_convert(HypixelAPI api) {
+    public void bit_convert(HypixelAPI api) {
 
         System.out.println("Initiating Fetch...");
 
@@ -44,10 +50,8 @@ public class hypixel {
 
             } else {
 
-                DecimalFormat formatter = Bits_converter.formatting();
-
-                Bits_converter.carrot_candy_upgrade(bazaarReply, formatter);
-                Bits_converter.heat_core(bazaarReply, formatter);
+                bitsConverter.carrot_candy_upgrade(bazaarReply);
+                bitsConverter.heat_core(bazaarReply);
 
                 Scanner input = new Scanner(System.in);
 
@@ -62,7 +66,7 @@ public class hypixel {
                     System.out.println("How much? [int]");
                     int amt = input.nextInt();
 
-                    Bits_converter.crafting_recipe(recipe_name, amt);
+                    bitsConverter.crafting_recipe(recipe_name, amt);
 
                 } else {
 

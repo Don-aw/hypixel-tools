@@ -1,32 +1,33 @@
 package me.don.hypixelapitest;
 
+import java.net.http.HttpClient;
 import java.util.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
-import net.hypixel.api.HypixelAPI;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.hypixel.api.reply.skyblock.BazaarReply;
 
 public class Bits_converter {
 
-    public static DecimalFormat formatting() {
+    private final HttpClient client;
+    private final ObjectMapper objectMapper;
+    private final DecimalFormat formatter;
+    private final DecimalFormatSymbols symbols;
 
-        // Create an instance of DecimalFormat for US locale
-        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+    public Bits_converter() {
 
-        // Get the DecimalFormatSymbols instance associated with this formatter
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-
-        //setting seperater
+        client = HttpClient.newHttpClient();
+        objectMapper = new ObjectMapper();
+        formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        symbols = formatter.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(',');
         formatter.setDecimalFormatSymbols(symbols);
 
-        return formatter;
-
     }
 
-    public static void carrot_candy_upgrade(BazaarReply bazaarReply, DecimalFormat formatter) {
+    public void carrot_candy_upgrade(BazaarReply bazaarReply) {
 
             //temp holder for summing
             double total = 0;
@@ -65,7 +66,6 @@ public class Bits_converter {
             }
             double ucc_cost = Math.round(total / 3);
             //System.out.println("Ultimate Carrot Candy Ave. Price: " + formatter.format(ucc_cost));
-
             //hence calculating the ultimate carrot candy upgrade price and the bit conversion
             double uccu_cost = 10 * ucc_cost - ucc_craft_cost;
             System.out.println("\nUltimate Carrot Candy Upgrade is worth: " + formatter.format(uccu_cost));
@@ -74,7 +74,7 @@ public class Bits_converter {
 
     }
 
-    public static void heat_core(BazaarReply bazaarReply, DecimalFormat formatter) {
+    public void heat_core(BazaarReply bazaarReply) {
 
         //calculate enchanted lava bucket price
         double total = 0;
@@ -98,7 +98,7 @@ public class Bits_converter {
 
     }
 
-    public static void crafting_recipe(String recipe_name, int amt) {
+    public void crafting_recipe(String recipe_name, int amt) {
 
         if (Objects.equals(recipe_name, "ucc")) {
 

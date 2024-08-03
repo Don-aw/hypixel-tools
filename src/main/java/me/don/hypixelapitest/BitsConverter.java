@@ -1,13 +1,15 @@
 package me.don.hypixelapitest;
 
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.hypixel.api.reply.skyblock.BazaarReply;
 
 public class Bits_converter {
 
@@ -15,6 +17,7 @@ public class Bits_converter {
     private final ObjectMapper objectMapper;
     private final DecimalFormat formatter;
     private final DecimalFormatSymbols symbols;
+    private BazaarData bazaarData;
 
     public Bits_converter() {
 
@@ -27,14 +30,32 @@ public class Bits_converter {
 
     }
 
-    public void carrot_candy_upgrade(BazaarReply bazaarReply) {
+    public void fetchBazaar() throws Exception {
+
+        String BASE_URL = "https://api.hypixel.net/v2/skyblock/bazaar";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL))
+                //.header("Accept", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        //System.out.println(response.body().substring(0, 100));
+
+        bazaarData = objectMapper.readValue(response.body(), BazaarData.class);
+
+    }
+
+    public void carrot_candy_upgrade() {
 
             //temp holder for summing
             double total = 0;
 
             // calculate enchanted golden carrot price/unit
             for(int i = 0; i < 3; i++) {
-                total += bazaarReply.getProduct("ENCHANTED_GOLDEN_CARROT").getBuySummary().get(i).getPricePerUnit();
+                total += bazaarData.getProduct("ENCHANTED_GOLDEN_CARROT").getBuy_summary().get(i).getPricePerUnit();
             }
             double egc_cost = Math.round(total / 3);
             //System.out.println("Enchanted Golden Carrot Ave. Price: " + egc_cost);
@@ -42,7 +63,7 @@ public class Bits_converter {
             //calculate enchanted carrot price/unit
             total = 0;
             for(int i = 0; i < 3; i++) {
-                total += bazaarReply.getProduct("ENCHANTED_CARROT").getBuySummary().get(i).getPricePerUnit();
+                total += bazaarData.getProduct("ENCHANTED_CARROT").getBuy_summary().get(i).getPricePerUnit();
             }
             double ec_cost = Math.round(total / 3);
             //System.out.println("Enchanted Carrot Ave. Price: " + formatter.format(ec_cost));
@@ -50,7 +71,7 @@ public class Bits_converter {
             //calculate simple carrot candy price/unit
             total = 0;
             for(int i = 0; i < 3; i++) {
-                total += bazaarReply.getProduct("SIMPLE_CARROT_CANDY").getBuySummary().get(i).getPricePerUnit();
+                total += bazaarData.getProduct("SIMPLE_CARROT_CANDY").getBuy_summary().get(i).getPricePerUnit();
             }
             double scc_cost = Math.round(total / 3);
             //System.out.println("Simple Carrot Candy Ave. Price: " + formatter.format(scc_cost));
@@ -62,7 +83,7 @@ public class Bits_converter {
             //finding the ultimate carrot candy price
             total = 0;
             for(int i = 0; i < 3; i++) {
-                total += bazaarReply.getProduct("ULTIMATE_CARROT_CANDY").getBuySummary().get(i).getPricePerUnit();
+                total += bazaarData.getProduct("ULTIMATE_CARROT_CANDY").getBuy_summary().get(i).getPricePerUnit();
             }
             double ucc_cost = Math.round(total / 3);
             //System.out.println("Ultimate Carrot Candy Ave. Price: " + formatter.format(ucc_cost));
@@ -74,12 +95,12 @@ public class Bits_converter {
 
     }
 
-    public void heat_core(BazaarReply bazaarReply) {
+    public void heat_core() {
 
         //calculate enchanted lava bucket price
         double total = 0;
         for(int i = 0; i < 3; i++) {
-            total += bazaarReply.getProduct("ENCHANTED_LAVA_BUCKET").getBuySummary().get(i).getPricePerUnit();
+            total += bazaarData.getProduct("ENCHANTED_LAVA_BUCKET").getBuy_summary().get(i).getPricePerUnit();
         }
         double elb_cost = Math.round(total / 3);
         //System.out.println("Enchanted Lava Bucket Ave. Price: " + formatter.format(elb_cost));
@@ -87,7 +108,7 @@ public class Bits_converter {
         //calculate magma bucket price
         total = 0;
         for(int i = 0; i < 3; i++) {
-            total += bazaarReply.getProduct("MAGMA_BUCKET").getBuySummary().get(i).getPricePerUnit();
+            total += bazaarData.getProduct("MAGMA_BUCKET").getBuy_summary().get(i).getPricePerUnit();
         }
         double mb_cost = Math.round(total / 3);
         //System.out.println("Magma Bucket Ave. Price: " + formatter.format(mb_cost));
@@ -98,16 +119,34 @@ public class Bits_converter {
 
     }
 
-    public void crafting_recipe(String recipe_name, int amt) {
+    public void promptCraft() {
 
-        if (Objects.equals(recipe_name, "ucc")) {
+        Scanner input = new Scanner(System.in);
 
-            System.out.println("\nRequired Ench Golden Carrot:    " + amt * 192);
-            System.out.println("Required Ench Carrot:           " + amt * 2560);
-            System.out.println("Required Simple Candy:          " + amt * 8);
+        System.out.println("\nProceed to crafting? [y/n]");
+        String craft = input.nextLine();
+        if (Objects.equals(craft, "n"))
+            System.exit(0);
+
+        System.out.println("What to craft?");
+        String recipe_name = input.nextLine();
+
+        System.out.println("How much? [int]");
+        int amt = input.nextInt();
+
+        switch(recipe_name){
+
+            case "ucc":craftUltimateCarrotCandy(amt);
 
         }
 
+    }
+
+    private void craftUltimateCarrotCandy(int amt) {
+
+        System.out.println("\nRequired Ench Golden Carrot:    " + amt * 192);
+        System.out.println("Required Ench Carrot:           " + amt * 2560);
+        System.out.println("Required Simple Candy:          " + amt * 8);
 
     }
 
